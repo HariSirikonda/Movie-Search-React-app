@@ -121,7 +121,7 @@ function MovieApp() {
                                     />
                                     {/* Movie Info */}
                                     <div className="card-body">
-                                        <h5 className="card-title text-truncate">{movie.Title} ({movie.Year})</h5>
+                                        <h5 className="card-title text-wrap">{movie.Title} ({movie.Year})</h5>
                                     </div>
                                 </div>
                             </div>

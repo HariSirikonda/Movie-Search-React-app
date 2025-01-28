@@ -28,7 +28,7 @@ function MovieApp() {
                 // Fetch detailed movie data for each movie in the search results
                 const detailedMovies = await Promise.all(
                     data.Search.map(async (movie) => {
-                        const detailedUrl = `https://www.omdbapi.com/?apikey=6afed51a&i=${movie.imdbID}&plot=full`;
+                        const detailedUrl = `https://www.omdbapi.com/?apikey=6afed51a&i=${movie.imdbID}&plot=short`;
                         const detailedResponse = await fetch(detailedUrl);
                         const detailedData = await detailedResponse.json();
                         return detailedData; // Return the detailed movie data
@@ -131,7 +131,9 @@ function MovieApp() {
                                     {/* Movie Info */}
                                     <div className="card-body">
                                         <h5 className="card-title text-wrap">{movie.Title} ({movie.Year})</h5>
-                                        <p>{movie.Plot}</p>
+                                        <p className="card-text">
+                                            {movie.Plot}
+                                        </p>
                                     </div>
                                 </div>
                             </div>

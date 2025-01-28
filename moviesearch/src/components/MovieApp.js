@@ -23,15 +23,23 @@ function MovieApp() {
             const url = `https://www.omdbapi.com/?apikey=6afed51a&s=${searchQuery}`;
             const response = await fetch(url);
             const data = await response.json();
-            console.log(data)
 
-            if (!response.ok || data.Response === "False") {
+            if (data.Response === "True") {
+                // Fetch detailed movie data for each movie in the search results
+                const detailedMovies = await Promise.all(
+                    data.Search.map(async (movie) => {
+                        const detailedUrl = `https://www.omdbapi.com/?apikey=6afed51a&i=${movie.imdbID}&plot=full`;
+                        const detailedResponse = await fetch(detailedUrl);
+                        const detailedData = await detailedResponse.json();
+                        return detailedData; // Return the detailed movie data
+                    })
+                );
+                console.log(detailedMovies);
+                setMovies(detailedMovies); // Set the detailed movie data
+            } else {
                 alert(data.Error || "Movie not found.");
                 setMovies([]);
-                return;
             }
-
-            setMovies(data.Search);
         } catch (error) {
             console.error("Error fetching movies:", error.message);
             alert("Failed to fetch movie data. Please try again.");
@@ -39,6 +47,7 @@ function MovieApp() {
             setLoading(false);
         }
     };
+
 
     return (
         <div className="movie-app">
@@ -122,6 +131,7 @@ function MovieApp() {
                                     {/* Movie Info */}
                                     <div className="card-body">
                                         <h5 className="card-title text-wrap">{movie.Title} ({movie.Year})</h5>
+                                        <p>{movie.Plot}</p>
                                     </div>
                                 </div>
                             </div>

@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import ImageNotFound from '../assets/imagenotfound.png';
+import Star from '../assets/star.png';
 
 function MovieApp() {
     const [searchQuery, setSearchQuery] = useState('');
@@ -8,32 +10,6 @@ function MovieApp() {
     const handleSearchChange = (event) => {
         setSearchQuery(event.target.value);
     };
-
-    // Fetch popular movies on component mount
-    useEffect(() => {
-        const fetchTrendingMovies = async () => {
-            setLoading(true);
-            try {
-                const tmdbUrl = `https://api.themoviedb.org/3/trending/movie/day?api_key=2f70ddbb8e5f352e1f1519357c2c43f7`;
-                const response = await fetch(tmdbUrl);
-                const data = await response.json();
-
-                if (response.ok) {
-                    setMovies(data.results); // Save the movie list in state
-                } else {
-                    console.error("Error fetching movies:", data.message);
-                    alert("Failed to fetch trending movies.");
-                }
-            } catch (error) {
-                console.error("Error fetching trending movies:", error);
-                alert("An error occurred while fetching data.");
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchTrendingMovies();
-    }, []);
 
     const handleSearchSubmit = async () => {
         if (!searchQuery.trim()) {
@@ -124,38 +100,41 @@ function MovieApp() {
                     </select>
                 </div>
             </div>
-            <div className="container">
+            <div className="container mt-4 mb-4">
                 {loading ? (
-                    <p>Loading trending movies...</p>
+                    <p className="text-center">Loading...</p>
                 ) : movies.length > 0 ? (
-                    <div className="row">
+                    <div className="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4">
                         {movies.map((movie) => (
-                            <div key={movie.id} className="col-md-3 mb-4">
+                            <div key={movie.imdbID} className="col">
                                 <div className="card h-100 shadow-sm">
+                                    {/* Movie Poster */}
                                     <img
-                                        src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                                        alt={movie.title}
+                                        src={
+                                            movie.Poster !== "N/A"
+                                                ? movie.Poster
+                                                : ImageNotFound
+                                        }
+                                        alt={movie.Title}
                                         className="card-img-top"
+                                        style={{ height: "445px", objectFit: "cover" }}
                                     />
+                                    {/* Movie Info */}
                                     <div className="card-body">
-                                        <h5 className="card-title">{movie.title}</h5>
-                                        <p className="card-text">
-                                            Release Date: {movie.release_date || "N/A"}
-                                        </p>
-                                        <p className="card-text">
-                                            Rating: {movie.vote_average}/10
-                                        </p>
+                                        <h5 className="card-title text-truncate">{movie.Title}</h5>
+                                        <div>
+                                            <p className="card-text text-muted">{movie.Year}</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         ))}
                     </div>
                 ) : (
-                    <p>No movies found.</p>
+                    <p className="text-center">No movies found.</p>
                 )}
             </div>
-
-        </div>
+        </div >
     );
 }
 

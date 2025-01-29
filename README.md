@@ -39,7 +39,7 @@ A **React-based movie search and discovery app** that allows users to explore mo
 ### Installation
 ```sh
 # Clone the repository
-git clone https://github.com/yourusername/movie-app.git
+git clone https://github.com/HariSirikonda/Movie-Search-React-app
 cd movie-app
 
 # Install dependencies
@@ -128,6 +128,6 @@ This project is licensed under the **MIT License**.
 ## 📧 Contact
 For questions or suggestions, feel free to reach out:
 📩 Email: your-email@example.com  
-🔗 GitHub: [yourusername](https://github.com/yourusername)
+🔗 GitHub: [HariSirikonda](https://github.com/HariSirikonda)
 
 Happy Coding! 🎬🚀

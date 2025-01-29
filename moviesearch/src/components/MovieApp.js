@@ -75,6 +75,45 @@ function MovieApp() {
                     {loading ? 'Searching...' : 'Search'}
                 </button>
             </div>
+            <div className='container d-flex align-items-center justify-content-center mb-4 p-2'>
+                <div className='mx-2'>
+                    <label className='mx-2'><b>Sort by : </b></label>
+                    <select className='rounded-pill p-1 bg-light'>
+                        <option className='p-2'>--</option>
+                        <option className='p-2'>Popularity Descending</option>
+                        <option className='p-2'>Popularity Ascending</option>
+                        <option className='p-2'>Rating Descending</option>
+                        <option className='p-2'>Rating Ascending</option>
+                        <option className='p-2'>Release date Descending</option>
+                        <option className='p-2'>Release date Ascending</option>
+                    </select>
+                </div>
+                <div>
+                    <label className='mx-2'><b>Genre : </b></label>
+                    <select className='rounded-pill p-1 bg-light'>
+                        <option className='p-2'>--</option>
+                        <option className='p-2'>Action</option>
+                        <option className='p-2'>Adventure</option>
+                        <option className='p-2'>Animation</option>
+                        <option className='p-2'>Comedy</option>
+                        <option className='p-2'>Crime</option>
+                        <option className='p-2'>Documentary</option>
+                        <option className='p-2'>Drama</option>
+                        <option className='p-2'>Family</option>
+                        <option className='p-2'>Fantacy</option>
+                        <option className='p-2'>History</option>
+                        <option className='p-2'>Horror</option>
+                        <option className='p-2'>Music</option>
+                        <option className='p-2'>Mystery</option>
+                        <option className='p-2'>Romance</option>
+                        <option className='p-2'>Science Fiction</option>
+                        <option className='p-2'>TV Movies</option>
+                        <option className='p-2'>Thriller</option>
+                        <option className='p-2'>War</option>
+                        <option className='p-2'>Western</option>
+                    </select>
+                </div>
+            </div>
             <div className="container mt-4 mb-4">
                 {loading ? (
                     <p className="text-center">Loading...</p>

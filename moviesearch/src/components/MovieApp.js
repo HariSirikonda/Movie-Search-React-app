@@ -9,11 +9,9 @@ function MovieApp() {
     const [savedMovies, setSavedMovies] = useState({});
 
     const popularTeluguMovies = [
-        "Pedarayudu", "Bavagaru Bagunnara", "Tholi Prema", "Sitarama Raju", "Samarasimha Reddy",
-        "Raja", "Preminchukundam Raa", "Aavida Maa Aavide", "Auto Driver", "Anaganaga Oka Roju",
-        "Nuvvu Vastavani", "Kushi", "Murari", "Indra", "Santhosham",
-        "Okkadu", "Tagore", "Varsham", "Arya", "Athadu",
-        "Manmadhudu", "Nuvvu Nenu", "Simhadri", "Pokiri"
+        "Avengers", "Batman", "Spider-Man", "Star Wars", "Harry Potter",
+        "Superman", "Fast and Furious", "The Matrix", "Mission Impossible",
+        "James Bond", "Deadpool", "Black Panther", "Inception", "Joker"
     ];
 
     const handleSearchChange = (event) => {
@@ -53,21 +51,37 @@ function MovieApp() {
     useEffect(() => {
         const fetchPopularMovies = async () => {
             setLoading(true);
-            let allMovies = [];
+            try {
+                let allMovies = [];
 
-            for (const keyword of popularTeluguMovies) {
-                const moviesForKeyword = await fetchMoviesByKeyword(keyword);
-                allMovies = [...allMovies, ...moviesForKeyword];
+                // Fetch multiple pages to get more movies (OMDB allows only 10 results per page)
+                for (let page = 1; page <= 5; page++) {
+                    const url = `https://www.omdbapi.com/?apikey=${API_KEY}&s=Telugu&page=${page}`;
+                    const response = await fetch(url);
+                    const data = await response.json();
 
-                // 🔹 Stop early if we reach 100 movies
-                if (allMovies.length >= 100) break;
+                    if (data.Response === "True") {
+                        allMovies = [...allMovies, ...data.Search];
+                    } else {
+                        break; // Stop fetching if no more results
+                    }
+                }
+
+                // Fetch detailed data for each movie
+                const detailedMovies = await Promise.all(
+                    allMovies.slice(0, 20).map(async (movie) => { // Adjust count as needed
+                        const detailsUrl = `https://www.omdbapi.com/?apikey=${API_KEY}&i=${movie.imdbID}&plot=short`;
+                        const detailsResponse = await fetch(detailsUrl);
+                        return await detailsResponse.json();
+                    })
+                );
+
+                setMovies(detailedMovies);
+            } catch (error) {
+                console.error("Error fetching movies:", error);
+            } finally {
+                setLoading(false);
             }
-
-            // 🔹 Remove duplicates using imdbID as a key
-            const uniqueMovies = Array.from(new Map(allMovies.map(movie => [movie.imdbID, movie])).values());
-
-            setMovies(uniqueMovies.slice(0, 100)); // Limit to 100 movies
-            setLoading(false);
         };
 
         fetchPopularMovies();

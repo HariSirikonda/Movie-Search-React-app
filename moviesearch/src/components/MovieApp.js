@@ -1,18 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import ImageNotFound from '../assets/imagenotfound.png';
-import Star from '../assets/star.png';
-import SaveButton from '../assets/save-instagram.png';
-import SavedButton from '../assets/bookmark.png';
-import LikeButton from '../assets/like.png';
-import HeartButton from '../assets/heart.png';
+import React, { useState } from 'react';
+import MovieCard from './MovieCard';
 
 function MovieApp() {
     const [searchQuery, setSearchQuery] = useState('');
     const [movies, setMovies] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [savedMovies, setSavedMovies] = useState({});
 
     const handleSearchChange = (event) => {
         setSearchQuery(event.target.value);
+    };
+
+    const handleSaveClick = (imdbID) => {
+        setSavedMovies((prevState) => ({
+            ...prevState,
+            [imdbID]: !prevState[imdbID], // Toggle state for only this movie
+        }));
     };
 
     const handleSearchSubmit = async () => {
@@ -35,11 +38,10 @@ function MovieApp() {
                         const detailedUrl = `https://www.omdbapi.com/?apikey=6afed51a&i=${movie.imdbID}&plot=short`;
                         const detailedResponse = await fetch(detailedUrl);
                         const detailedData = await detailedResponse.json();
-                        return detailedData; // Return the detailed movie data
+                        return detailedData;
                     })
                 );
-                console.log(detailedMovies);
-                setMovies(detailedMovies); // Set the detailed movie data
+                setMovies(detailedMovies);
             } else {
                 alert(data.Error || "Movie not found.");
                 setMovies([]);
@@ -51,7 +53,6 @@ function MovieApp() {
             setLoading(false);
         }
     };
-
 
     return (
         <div className="movie-app">
@@ -74,95 +75,25 @@ function MovieApp() {
                     {loading ? 'Searching...' : 'Search'}
                 </button>
             </div>
-            <div className='container d-flex align-items-center justify-content-center mb-4 p-2'>
-                <div className='mx-2'>
-                    <label className='mx-2'><b>Sort by : </b></label>
-                    <select className='rounded-pill p-1 bg-light'>
-                        <option className='p-2'>--</option>
-                        <option className='p-2'>Popularity Descending</option>
-                        <option className='p-2'>Popularity Ascending</option>
-                        <option className='p-2'>Rating Descending</option>
-                        <option className='p-2'>Rating Ascending</option>
-                        <option className='p-2'>Release date Descending</option>
-                        <option className='p-2'>Release date Ascending</option>
-                    </select>
-                </div>
-                <div>
-                    <label className='mx-2'><b>Genre : </b></label>
-                    <select className='rounded-pill p-1 bg-light'>
-                        <option className='p-2'>--</option>
-                        <option className='p-2'>Action</option>
-                        <option className='p-2'>Adventure</option>
-                        <option className='p-2'>Animation</option>
-                        <option className='p-2'>Comedy</option>
-                        <option className='p-2'>Crime</option>
-                        <option className='p-2'>Documentary</option>
-                        <option className='p-2'>Drama</option>
-                        <option className='p-2'>Family</option>
-                        <option className='p-2'>Fantacy</option>
-                        <option className='p-2'>History</option>
-                        <option className='p-2'>Horror</option>
-                        <option className='p-2'>Music</option>
-                        <option className='p-2'>Mystery</option>
-                        <option className='p-2'>Romance</option>
-                        <option className='p-2'>Science Fiction</option>
-                        <option className='p-2'>TV Movies</option>
-                        <option className='p-2'>Thriller</option>
-                        <option className='p-2'>War</option>
-                        <option className='p-2'>Western</option>
-                    </select>
-                </div>
-            </div>
             <div className="container mt-4 mb-4">
                 {loading ? (
                     <p className="text-center">Loading...</p>
                 ) : movies.length > 0 ? (
                     <div className="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4">
                         {movies.map((movie) => (
-                            <div key={movie.imdbID} className="col">
-                                <div className="card-img card h-100 shadow-sm">
-                                    {/* Movie Poster */}
-                                    <img
-                                        src={
-                                            movie.Poster !== "N/A"
-                                                ? movie.Poster
-                                                : ImageNotFound
-                                        }
-                                        alt={movie.Title}
-                                        className="card-img-top"
-                                        style={{ height: "445px", objectFit: "cover" }}
-                                    />
-                                    <div className="save-button-overlay no-select rounded">
-                                        <img src={SaveButton} className="img-fluid" alt="Save" />
-                                    </div>
-                                    {/* Overlay Text */}
-                                    {/* <div className='overlay-text'>
-                                        <p>
-                                            <b>Actors : </b>{movie.Actors}<br />
-                                            <b>Box Office : </b>{movie.BoxOffice}<br />
-                                            <b>Country : </b>{movie.Country}<br />
-                                            <b>Director : </b>{movie.Director}<br />
-                                            <b>Genre : </b>{movie.Genre}<br />
-                                            <b>IMDB Rating : </b>{movie.imdbRating} for 10<br />
-                                            <b>Languages : </b>{movie.Language}<br />
-                                            <b>Plot : </b>{movie.Plot}<br />
-                                            <b>Runtime : </b>{movie.Runtime}<br />
-                                            <b>Release date : </b>{movie.Released}<br />
-                                        </p>
-                                    </div> */}
-                                    {/* Movie Info */}
-                                    <div className="card-body">
-                                        <h6 className="card-title text-wrap">{movie.Title} ({movie.Year})</h6>
-                                    </div>
-                                </div>
-                            </div>
+                            <MovieCard
+                                key={movie.imdbID}
+                                movie={movie}
+                                isSaved={savedMovies[movie.imdbID]}
+                                onSaveClick={handleSaveClick}
+                            />
                         ))}
                     </div>
                 ) : (
                     <p className="text-center">No movies found.</p>
                 )}
             </div>
-        </div >
+        </div>
     );
 }
 

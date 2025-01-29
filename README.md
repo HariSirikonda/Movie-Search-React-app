@@ -91,7 +91,7 @@ movie-app/
 
 ## 📸 Screenshots
 ### 🔹 Movie Search & Results
-![Movie Search](https://via.placeholder.com/800x400)
+![Movie Search]("C:\Users\haris\Pictures\Screenshots\Screenshot (132).png")
 
 ### 🔹 Movie Details Overlay
 ![Movie Details](https://via.placeholder.com/800x400)
@@ -127,7 +127,7 @@ This project is licensed under the **MIT License**.
 
 ## 📧 Contact
 For questions or suggestions, feel free to reach out:
-📩 Email: your-email@example.com  
+📩 Email: your-harisirikonda22@gmail.com  
 🔗 GitHub: [HariSirikonda](https://github.com/HariSirikonda)
 
 Happy Coding! 🎬🚀

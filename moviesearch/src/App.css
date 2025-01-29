@@ -42,17 +42,14 @@
 
 .overlay-text {
     position: absolute;
-    top: 5px;
-    /* Adjust position */
-    left: 10%;
-    padding: 5px;
-    margin: 5px;
-    transform: translateX(-50%);
-    /* Center text */
+    top: 10px;
+    left: 10px;
+    padding: 5px 10px;
     color: black;
-    /* Ensures text is above the image */
-    text-align: center;
+    text-align: left;
+    font-size: 14px;
     opacity: 0%;
+    max-width: 94%;
 }
 
 .overlay-text {

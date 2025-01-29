@@ -129,15 +129,23 @@ function MovieApp() {
                                         style={{ height: "445px", objectFit: "cover" }}
                                     />
                                     {/* Overlay Text */}
-                                    <div className='overlay-text border'>
-                                        Hello
+                                    <div className='overlay-text'>
+                                        <p>
+                                            <b>Actors : </b>{movie.Actors}<br />
+                                            <b>Box Office : </b>{movie.BoxOffice}<br />
+                                            <b>Country : </b>{movie.Country}<br />
+                                            <b>Director : </b>{movie.Director}<br />
+                                            <b>Genre : </b>{movie.Genre}<br />
+                                            <b>IMDB Rating : </b>{movie.imdbRating} for 10<br />
+                                            <b>Languages : </b>{movie.Language}<br />
+                                            <b>Plot : </b>{movie.Plot}<br />
+                                            <b>Runtime : </b>{movie.Runtime}<br />
+                                            <b>Release date : </b>{movie.Released}<br />
+                                        </p>
                                     </div>
                                     {/* Movie Info */}
                                     <div className="card-body">
-                                        <h5 className="card-title text-wrap">{movie.Title} ({movie.Year})</h5>
-                                        <p className="card-text">
-                                            {movie.Plot}
-                                        </p>
+                                        <h6 className="card-title text-wrap">{movie.Title} ({movie.Year})</h6>
                                     </div>
                                 </div>
                             </div>

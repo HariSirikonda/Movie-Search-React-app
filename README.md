@@ -87,20 +87,6 @@ movie-app/
 │── README.md
 ```
 
----
-
-## 📸 Screenshots
-### 🔹 Movie Search & Results
-![Movie Search](C:\Users\haris\Documents\MY COURCES\REACT INTERNSHIP - CODTECH\Movie Search app\moviesearch\src\assets\Screenshot1.png)
-
-### 🔹 Movie Details Overlay
-![Movie Details](https://via.placeholder.com/800x400)
-
-### 🔹 Save & Bookmark
-![Save Button](https://via.placeholder.com/800x400)
-
----
-
 ## 🏗️ Future Enhancements
 ✅ Add a **watchlist** feature
 ✅ Implement **dark mode**

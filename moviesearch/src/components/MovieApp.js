@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import ImageNotFound from '../assets/imagenotfound.png';
 import Star from '../assets/star.png';
+import SaveButton from '../assets/save-instagram.png';
+import SavedButton from '../assets/bookmark.png';
+import LikeButton from '../assets/like.png';
+import HeartButton from '../assets/heart.png';
 
 function MovieApp() {
     const [searchQuery, setSearchQuery] = useState('');
@@ -116,7 +120,7 @@ function MovieApp() {
                     <div className="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4">
                         {movies.map((movie) => (
                             <div key={movie.imdbID} className="col">
-                                <div className="card-image card-img card h-100 shadow-sm">
+                                <div className="card-img card h-100 shadow-sm">
                                     {/* Movie Poster */}
                                     <img
                                         src={
@@ -128,8 +132,11 @@ function MovieApp() {
                                         className="card-img-top"
                                         style={{ height: "445px", objectFit: "cover" }}
                                     />
+                                    <div className="save-button-overlay no-select rounded">
+                                        <img src={SaveButton} className="img-fluid" alt="Save" />
+                                    </div>
                                     {/* Overlay Text */}
-                                    <div className='overlay-text'>
+                                    {/* <div className='overlay-text'>
                                         <p>
                                             <b>Actors : </b>{movie.Actors}<br />
                                             <b>Box Office : </b>{movie.BoxOffice}<br />
@@ -142,7 +149,7 @@ function MovieApp() {
                                             <b>Runtime : </b>{movie.Runtime}<br />
                                             <b>Release date : </b>{movie.Released}<br />
                                         </p>
-                                    </div>
+                                    </div> */}
                                     {/* Movie Info */}
                                     <div className="card-body">
                                         <h6 className="card-title text-wrap">{movie.Title} ({movie.Year})</h6>

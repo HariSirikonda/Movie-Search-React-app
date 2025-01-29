@@ -1,11 +1,20 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import MovieCard from './MovieCard';
 
 function MovieApp() {
+    const API_KEY = "6afed51a";
     const [searchQuery, setSearchQuery] = useState('');
     const [movies, setMovies] = useState([]);
     const [loading, setLoading] = useState(false);
     const [savedMovies, setSavedMovies] = useState({});
+
+    const popularTeluguMovies = [
+        "Pedarayudu", "Bavagaru Bagunnara", "Tholi Prema", "Sitarama Raju", "Samarasimha Reddy",
+        "Raja", "Preminchukundam Raa", "Aavida Maa Aavide", "Auto Driver", "Anaganaga Oka Roju",
+        "Nuvvu Vastavani", "Kushi", "Murari", "Indra", "Santhosham",
+        "Okkadu", "Tagore", "Varsham", "Arya", "Athadu",
+        "Manmadhudu", "Nuvvu Nenu", "Simhadri", "Pokiri"
+    ];
 
     const handleSearchChange = (event) => {
         setSearchQuery(event.target.value);
@@ -17,6 +26,52 @@ function MovieApp() {
             [imdbID]: !prevState[imdbID], // Toggle state for only this movie
         }));
     };
+
+    const fetchMoviesByKeyword = async (keyword) => {
+        let fetchedMovies = [];
+        try {
+            for (let page = 1; page <= 5; page++) { // Fetch multiple pages
+                const url = `https://www.omdbapi.com/?apikey=${API_KEY}&s=${keyword}&page=${page}`;
+                const response = await fetch(url);
+                const data = await response.json();
+
+                if (data.Response === "True") {
+                    fetchedMovies = [...fetchedMovies, ...data.Search];
+                } else {
+                    break; // Stop if no more results
+                }
+
+                // 🔹 Stop early if we already have enough movies
+                if (fetchedMovies.length >= 100) break;
+            }
+        } catch (error) {
+            console.error("Error fetching movies:", error);
+        }
+        return fetchedMovies;
+    };
+
+    useEffect(() => {
+        const fetchPopularMovies = async () => {
+            setLoading(true);
+            let allMovies = [];
+
+            for (const keyword of popularTeluguMovies) {
+                const moviesForKeyword = await fetchMoviesByKeyword(keyword);
+                allMovies = [...allMovies, ...moviesForKeyword];
+
+                // 🔹 Stop early if we reach 100 movies
+                if (allMovies.length >= 100) break;
+            }
+
+            // 🔹 Remove duplicates using imdbID as a key
+            const uniqueMovies = Array.from(new Map(allMovies.map(movie => [movie.imdbID, movie])).values());
+
+            setMovies(uniqueMovies.slice(0, 100)); // Limit to 100 movies
+            setLoading(false);
+        };
+
+        fetchPopularMovies();
+    }, []);
 
     const handleSearchSubmit = async () => {
         if (!searchQuery.trim()) {

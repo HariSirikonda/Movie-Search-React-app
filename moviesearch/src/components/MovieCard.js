@@ -2,6 +2,7 @@ import React from 'react';
 import ImageNotFound from '../assets/imagenotfound.png';
 import SaveButton from '../assets/save-instagram.png';
 import SavedButton from '../assets/bookmark.png';
+import Star from '../assets/star.png';
 
 function MovieCard({ movie, isSaved, onSaveClick }) {
     return (
@@ -42,7 +43,10 @@ function MovieCard({ movie, isSaved, onSaveClick }) {
 
                 {/* Movie Info */}
                 <div className="card-body">
-                    <h6 className="card-title text-wrap">{movie.Title} ({movie.Year})</h6>
+                    <h6 className="card-title text-wrap">
+                        {movie.Title}
+                        ({movie.Year})
+                    </h6>
                 </div>
             </div>
         </div>

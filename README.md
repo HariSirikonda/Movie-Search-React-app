@@ -1,70 +1,133 @@
-# Getting Started with Create React App
+# MovieApp 🎬
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A **React-based movie search and discovery app** that allows users to explore movies, view detailed information, and save their favorite ones. The app fetches data from the **OMDb API** and displays popular movies on the initial load.
 
-## Available Scripts
+## 📌 Features
 
-In the project directory, you can run:
+### 🔍 Movie Search & Discovery
+- Search for movies using the OMDb API
+- Display search results with **posters, titles, years, and ratings**
+- View detailed movie information (actors, plot, director, box office, etc.)
 
-### `npm start`
+### 🎞️ Initial Popular Movies
+- On initial load, fetch **100+ popular Telugu movies** from **2004 to 2024**
+- Fetch multiple pages of results using pagination
+- Fetch detailed data for each movie before rendering
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### 🎭 Interactive UI
+- **Hover Effects**: Movie posters fade on hover, revealing additional details
+- **Overlay Text**: Displays movie details like actors, plot, director, etc.
+- **Save Button**: Allows users to mark movies as saved or unsaved
+- **Like Button**: Users can like movies
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### 🏷️ Sorting & Filtering
+- Sort by popularity, rating, and release date
+- Filter by genre (Action, Comedy, Drama, Sci-Fi, etc.)
 
-### `npm test`
+### ❤️ Save & Bookmark Movies
+- Click on the save button to bookmark a movie
+- Saves the state of bookmarked movies
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+## 🚀 Getting Started
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Prerequisites
+- Node.js (v14+ recommended)
+- npm or yarn
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Installation
+```sh
+# Clone the repository
+git clone https://github.com/yourusername/movie-app.git
+cd movie-app
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+# Install dependencies
+npm install  # or yarn install
+```
 
-### `npm run eject`
+### API Setup
+- Get a free API key from **[OMDb API](https://www.omdbapi.com/)**
+- Create a `.env` file in the project root:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```env
+REACT_APP_OMDB_API_KEY=your_api_key_here
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Running the App
+```sh
+npm start  # or yarn start
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+The app will be available at **http://localhost:3000**.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+---
 
-## Learn More
+## 🛠️ Technologies Used
+- **React.js** – Frontend framework
+- **Bootstrap** – UI styling and responsive design
+- **OMDb API** – Movie data source
+- **React Hooks** – State and lifecycle management
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+---
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## 🗂️ Project Structure
+```sh
+movie-app/
+│── src/
+│   │── components/
+│   │   ├── MovieCard.js      # Movie card component
+│   │   ├── MovieList.js      # List of movies
+│   │   ├── SearchBar.js      # Search input
+│   │── assets/               # Image assets
+│   │── App.js                # Main app component
+│   │── index.js              # Entry point
+│── public/
+│── package.json
+│── README.md
+```
 
-### Code Splitting
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## 📸 Screenshots
+### 🔹 Movie Search & Results
+![Movie Search](https://via.placeholder.com/800x400)
 
-### Analyzing the Bundle Size
+### 🔹 Movie Details Overlay
+![Movie Details](https://via.placeholder.com/800x400)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### 🔹 Save & Bookmark
+![Save Button](https://via.placeholder.com/800x400)
 
-### Making a Progressive Web App
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## 🏗️ Future Enhancements
+✅ Add a **watchlist** feature
+✅ Implement **dark mode**
+✅ Integrate **trailer videos** from YouTube
+✅ Add **user authentication** for personalized movie lists
 
-### Advanced Configuration
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## 💡 Contribution
+Feel free to submit issues or pull requests! 
 
-### Deployment
+```sh
+git checkout -b feature-branch
+git commit -m "Added new feature"
+git push origin feature-branch
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+---
 
-### `npm run build` fails to minify
+## 📜 License
+This project is licensed under the **MIT License**.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+---
+
+## 📧 Contact
+For questions or suggestions, feel free to reach out:
+📩 Email: your-email@example.com  
+🔗 GitHub: [yourusername](https://github.com/yourusername)
+
+Happy Coding! 🎬🚀

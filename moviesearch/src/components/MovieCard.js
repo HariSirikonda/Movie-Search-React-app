@@ -73,7 +73,7 @@ function MovieCard({ movie, isSaved, onSaveClick }) {
                 </div>
                 {/* COpied msg */}
                 <div className='copied-msg-overlay text-center rounded'>
-                    <p>Copied</p>
+                    <p>Copied!</p>
                 </div>
                 {/* Overlay Text */}
                 <div className="overlay-text">

@@ -140,10 +140,10 @@
     position: absolute;
     top: 52px;
     right: 45px;
-    background-color: white;
+    background-color: rgb(2, 2, 2);
+    color: white;
     width: 70px;
     height: 25px;
     z-index: 10;
-    padding: 5px;
     pointer-events: auto;
 }

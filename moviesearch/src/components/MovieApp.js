@@ -118,7 +118,7 @@ function MovieApp() {
     return (
         <div className="movie-app">
             <header className="text-center m-4">
-                <h1 className="text-success">Movies Hub</h1>
+                <h1 className="text-success">CHITRAVAHINI</h1>
             </header>
             <div className="container d-flex align-items-center justify-content-center mb-1">
                 <input

@@ -123,3 +123,15 @@
 .Trailer-overlay h6 a {
     text-decoration: none;
 }
+
+.share-button-overlay {
+    position: absolute;
+    top: 50px;
+    right: 10px;
+    background-color: white;
+    width: 30px;
+    height: 30px;
+    z-index: 10;
+    padding: 5px;
+    pointer-events: auto;
+}

@@ -9,9 +9,9 @@ function MovieApp() {
     const [savedMovies, setSavedMovies] = useState({});
 
     const popularTeluguMovies = [
-        "Avengers", "Batman", "Spider-Man", "Star Wars", "Harry Potter",
-        "Superman", "Fast and Furious", "The Matrix", "Mission Impossible",
-        "James Bond", "Deadpool", "Black Panther", "Inception", "Joker"
+        "Baahubali", "RRR", "Pushpa", "Ala Vaikunthapurramuloo", "Sarileru Neekevvaru",
+        "Arjun Reddy", "Geetha Govindam", "Maharshi", "Eega", "Magadheera",
+        "Gabbar Singh", "Pokiri", "Athadu", "Jalsa", "Temper"
     ];
 
     const handleSearchChange = (event) => {
@@ -21,10 +21,11 @@ function MovieApp() {
     const handleSaveClick = (imdbID) => {
         setSavedMovies((prevState) => ({
             ...prevState,
-            [imdbID]: !prevState[imdbID], // Toggle state for only this movie
+            [imdbID]: !prevState[imdbID], // Toggle saved state
         }));
     };
 
+    // Fetch movies using a given keyword
     const fetchMoviesByKeyword = async (keyword) => {
         let fetchedMovies = [];
         try {
@@ -39,8 +40,7 @@ function MovieApp() {
                     break; // Stop if no more results
                 }
 
-                // 🔹 Stop early if we already have enough movies
-                if (fetchedMovies.length >= 100) break;
+                if (fetchedMovies.length >= 100) break; // Stop if we have enough movies
             }
         } catch (error) {
             console.error("Error fetching movies:", error);
@@ -48,28 +48,23 @@ function MovieApp() {
         return fetchedMovies;
     };
 
+    // Fetch popular Telugu movies on initial load
     useEffect(() => {
         const fetchPopularMovies = async () => {
             setLoading(true);
             try {
                 let allMovies = [];
 
-                // Fetch multiple pages to get more movies (OMDB allows only 10 results per page)
-                for (let page = 1; page <= 5; page++) {
-                    const url = `https://www.omdbapi.com/?apikey=${API_KEY}&s=Telugu&page=${page}`;
-                    const response = await fetch(url);
-                    const data = await response.json();
+                for (const keyword of popularTeluguMovies) {
+                    const movies = await fetchMoviesByKeyword(keyword);
+                    allMovies = [...allMovies, ...movies];
 
-                    if (data.Response === "True") {
-                        allMovies = [...allMovies, ...data.Search];
-                    } else {
-                        break; // Stop fetching if no more results
-                    }
+                    if (allMovies.length >= 100) break; // Stop early if we have enough
                 }
 
-                // Fetch detailed data for each movie
+                // Fetch detailed movie data
                 const detailedMovies = await Promise.all(
-                    allMovies.slice(0, 20).map(async (movie) => { // Adjust count as needed
+                    allMovies.slice(0, 100).map(async (movie) => {
                         const detailsUrl = `https://www.omdbapi.com/?apikey=${API_KEY}&i=${movie.imdbID}&plot=short`;
                         const detailsResponse = await fetch(detailsUrl);
                         return await detailsResponse.json();
@@ -96,23 +91,20 @@ function MovieApp() {
         setLoading(true);
 
         try {
-            const url = `https://www.omdbapi.com/?apikey=6afed51a&s=${searchQuery}`;
-            const response = await fetch(url);
-            const data = await response.json();
+            const movies = await fetchMoviesByKeyword(searchQuery);
 
-            if (data.Response === "True") {
-                // Fetch detailed movie data for each movie in the search results
+            if (movies.length > 0) {
+                // Fetch detailed movie data
                 const detailedMovies = await Promise.all(
-                    data.Search.map(async (movie) => {
-                        const detailedUrl = `https://www.omdbapi.com/?apikey=6afed51a&i=${movie.imdbID}&plot=short`;
+                    movies.map(async (movie) => {
+                        const detailedUrl = `https://www.omdbapi.com/?apikey=${API_KEY}&i=${movie.imdbID}&plot=short`;
                         const detailedResponse = await fetch(detailedUrl);
-                        const detailedData = await detailedResponse.json();
-                        return detailedData;
+                        return detailedResponse.json();
                     })
                 );
                 setMovies(detailedMovies);
             } else {
-                alert(data.Error || "Movie not found.");
+                alert("Movie not found.");
                 setMovies([]);
             }
         } catch (error) {
@@ -143,6 +135,45 @@ function MovieApp() {
                 >
                     {loading ? 'Searching...' : 'Search'}
                 </button>
+            </div>
+            <div className='container d-flex align-items-center justify-content-center mb-4 p-2'>
+                <div className='mx-2'>
+                    <label className='mx-2'><b>Sort by : </b></label>
+                    <select className='rounded-pill p-1 bg-light'>
+                        <option className='p-2'>--</option>
+                        <option className='p-2'>Popularity Descending</option>
+                        <option className='p-2'>Popularity Ascending</option>
+                        <option className='p-2'>Rating Descending</option>
+                        <option className='p-2'>Rating Ascending</option>
+                        <option className='p-2'>Release date Descending</option>
+                        <option className='p-2'>Release date Ascending</option>
+                    </select>
+                </div>
+                <div>
+                    <label className='mx-2'><b>Genre : </b></label>
+                    <select className='rounded-pill p-1 bg-light'>
+                        <option className='p-2'>--</option>
+                        <option className='p-2'>Action</option>
+                        <option className='p-2'>Adventure</option>
+                        <option className='p-2'>Animation</option>
+                        <option className='p-2'>Comedy</option>
+                        <option className='p-2'>Crime</option>
+                        <option className='p-2'>Documentary</option>
+                        <option className='p-2'>Drama</option>
+                        <option className='p-2'>Family</option>
+                        <option className='p-2'>Fantacy</option>
+                        <option className='p-2'>History</option>
+                        <option className='p-2'>Horror</option>
+                        <option className='p-2'>Music</option>
+                        <option className='p-2'>Mystery</option>
+                        <option className='p-2'>Romance</option>
+                        <option className='p-2'>Science Fiction</option>
+                        <option className='p-2'>TV Movies</option>
+                        <option className='p-2'>Thriller</option>
+                        <option className='p-2'>War</option>
+                        <option className='p-2'>Western</option>
+                    </select>
+                </div>
             </div>
             <div className="container mt-4 mb-4">
                 {loading ? (

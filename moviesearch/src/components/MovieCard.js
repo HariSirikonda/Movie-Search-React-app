@@ -71,6 +71,10 @@ function MovieCard({ movie, isSaved, onSaveClick }) {
                         onClick={handleShareClick}
                     />
                 </div>
+                {/* COpied msg */}
+                <div className='copied-msg-overlay text-center rounded'>
+                    <p>Copied</p>
+                </div>
                 {/* Overlay Text */}
                 <div className="overlay-text">
                     <p>

@@ -1,11 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ImageNotFound from '../assets/imagenotfound.png';
 import SaveButton from '../assets/save-instagram.png';
 import SavedButton from '../assets/bookmark.png';
 import Star from '../assets/star.png';
 import Share from '../assets/share.png';
+import axios from 'axios';
 
 function MovieCard({ movie, isSaved, onSaveClick }) {
+    const [trailerLink, setTrailerLink] = useState("");
+
+    const handleShareClick = async () => {
+        const tmbdResponse = await axios.get(
+            `https://api.themoviedb.org/3/movie/${movie.imdbID}/videos?api_key=2f70ddbb8e5f352e1f1519357c2c43f7`
+        );
+
+        const trailer = tmbdResponse.data.results.find(
+            (video) => video.site === "YouTube" && video.type === "Trailer"
+        );
+
+        if (trailer) {
+            setTrailerLink(`https://www.youtube.com/watch?v=${trailer.key}`)
+            const trailerUrl = `https://www.youtube.com/watch?v=${trailer.key}`;
+            navigator.clipboard.writeText(trailerUrl);
+        }
+        else {
+            setTrailerLink('Trailer not found!')
+        }
+    }
+
     return (
         <div className="col">
             <div className="card-img card h-100 shadow-sm position-relative">
@@ -39,12 +61,14 @@ function MovieCard({ movie, isSaved, onSaveClick }) {
                         style={{ cursor: "pointer" }}
                     />
                 </div>
+                {/* Share Button Overlay */}
                 <div className='share-button-overlay no-select rounded b-light position-absolute shadow-sm'>
                     <img
                         src={Share}
                         className='img-fluid'
                         alt='Share'
                         style={{ cursor: "pointer" }}
+                        onClick={handleShareClick}
                     />
                 </div>
                 {/* Overlay Text */}

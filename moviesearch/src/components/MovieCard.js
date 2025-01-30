@@ -15,8 +15,21 @@ function MovieCard({ movie, isSaved, onSaveClick }) {
                     className="card-img-top"
                     style={{ height: "445px", objectFit: "cover" }}
                 />
+                {/* Rating  */}
+                <div className='Rating-overlay d-flex rounded bg-light'>
+                    <div className='ms-2'>
+                        <h6>{movie.imdbRating}</h6>
+                    </div>
+                    <div className='ms-2'>
+                        <img src={Star} />
+                    </div>
+                </div>
+                {/* Watch Trailer */}
+                <div className='Trailer-overlay text-center rounded bg-light'>
+                    <h6><a href='https://www.google.com' target='_blank'>Trailer</a></h6>
+                </div>
                 {/* Save Button Overlay */}
-                <div className="save-button-overlay no-select rounded position-absolute">
+                <div className="save-button-overlay no-select rounded bg-light position-absolute">
                     <img
                         src={isSaved ? SavedButton : SaveButton}
                         className="img-fluid"
@@ -30,10 +43,10 @@ function MovieCard({ movie, isSaved, onSaveClick }) {
                     <p>
                         <b>Country : </b>{movie.Country}<br />
                         <b>Director : </b>{movie.Director}<br />
+                        <b>Actors : </b>{movie.Actors}<br />
                         <b>Genre : </b>{movie.Genre}<br />
                         <b>Box Office : </b>{movie.BoxOffice}<br />
                         <b>Actors : </b>{movie.Actors}<br />
-                        <b>IMDB Rating : </b>{movie.imdbRating} / 10<br />
                         <b>Languages : </b>{movie.Language}<br />
                         <b>Plot : </b>{movie.Plot}<br />
                         <b>Runtime : </b>{movie.Runtime}<br />
@@ -44,8 +57,7 @@ function MovieCard({ movie, isSaved, onSaveClick }) {
                 {/* Movie Info */}
                 <div className="card-body">
                     <h6 className="card-title text-wrap">
-                        {movie.Title}
-                        ({movie.Year})
+                        {movie.Title} - {movie.Year}
                     </h6>
                 </div>
             </div>

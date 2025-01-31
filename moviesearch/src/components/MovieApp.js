@@ -7,6 +7,8 @@ function MovieApp() {
     const [movies, setMovies] = useState([]);
     const [loading, setLoading] = useState(false);
     const [savedMovies, setSavedMovies] = useState({});
+    const [sortBy, setSortBy] = useState('');
+    const [selectedGenre, setSelectedGenre] = useState('');
 
     const popularTeluguMovies = [
         "Baahubali", "RRR", "Pushpa", "Ala Vaikunthapurramuloo", "Sarileru Neekevvaru",
@@ -85,6 +87,10 @@ function MovieApp() {
         fetchPopularMovies();
     }, []);
 
+    const handleGenreChange = (event) => {
+        setSelectedGenre(event.target.value);
+    };
+
     const handleSearchSubmit = async () => {
         if (!searchQuery.trim()) {
             alert('Please enter a movie name.');
@@ -125,6 +131,23 @@ function MovieApp() {
         }
     };
 
+    const filteredMovies = selectedGenre
+        ? movies.filter((movie) => movie.Genre && movie.Genre.includes(selectedGenre))
+        : movies;
+
+
+    // Sorting function
+    const sortMovies = (moviesList) => {
+        if (sortBy === "Popularity") {
+            return [...moviesList].sort((a, b) => b.imdbVotes - a.imdbVotes);
+        } else if (sortBy === "Rating") {
+            return [...moviesList].sort((a, b) => b.imdbRating - a.imdbRating);
+        } else if (sortBy === "Release date") {
+            return [...moviesList].sort((a, b) => b.Year - a.Year);
+        }
+        return moviesList; // Default order
+    };
+
     return (
         <div className="movie-app">
             <header className="text-center m-4">
@@ -150,48 +173,45 @@ function MovieApp() {
             <div className='container d-flex align-items-center justify-content-center mb-4 p-2'>
                 <div className='mx-2'>
                     <label className='mx-2'><b>Sort by : </b></label>
-                    <select className='rounded-pill p-1 bg-light'>
+                    <select className='rounded-pill p-1 bg-light' value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
                         <option className='p-2'>--</option>
-                        <option className='p-2'>Popularity Descending</option>
-                        <option className='p-2'>Popularity Ascending</option>
-                        <option className='p-2'>Rating Descending</option>
-                        <option className='p-2'>Rating Ascending</option>
-                        <option className='p-2'>Release date Descending</option>
-                        <option className='p-2'>Release date Ascending</option>
+                        <option value="Popularity">Popularity</option>
+                        <option value="Rating">Rating</option>
+                        <option value="Release date">Release date</option>
                     </select>
                 </div>
                 <div>
                     <label className='mx-2'><b>Genre : </b></label>
-                    <select className='rounded-pill p-1 bg-light'>
-                        <option className='p-2'>--</option>
-                        <option className='p-2'>Action</option>
-                        <option className='p-2'>Adventure</option>
-                        <option className='p-2'>Animation</option>
-                        <option className='p-2'>Comedy</option>
-                        <option className='p-2'>Crime</option>
-                        <option className='p-2'>Documentary</option>
-                        <option className='p-2'>Drama</option>
-                        <option className='p-2'>Family</option>
-                        <option className='p-2'>Fantacy</option>
-                        <option className='p-2'>History</option>
-                        <option className='p-2'>Horror</option>
-                        <option className='p-2'>Music</option>
-                        <option className='p-2'>Mystery</option>
-                        <option className='p-2'>Romance</option>
-                        <option className='p-2'>Science Fiction</option>
-                        <option className='p-2'>TV Movies</option>
-                        <option className='p-2'>Thriller</option>
-                        <option className='p-2'>War</option>
-                        <option className='p-2'>Western</option>
+                    <select className='rounded-pill p-1 bg-light' onChange={handleGenreChange}>
+                        <option value="">--</option>
+                        <option value="Action">Action</option>
+                        <option value="Adventure">Adventure</option>
+                        <option value="Animation">Animation</option>
+                        <option value="Comedy">Comedy</option>
+                        <option value="Crime">Crime</option>
+                        <option value="Documentary">Documentary</option>
+                        <option value="Drama">Drama</option>
+                        <option value="Family">Family</option>
+                        <option value="Fantasy">Fantasy</option>
+                        <option value="History">History</option>
+                        <option value="Horror">Horror</option>
+                        <option value="Music">Music</option>
+                        <option value="Mystery">Mystery</option>
+                        <option value="Romance">Romance</option>
+                        <option value="Science Fiction">Science Fiction</option>
+                        <option value="TV Movie">TV Movies</option>
+                        <option value="Thriller">Thriller</option>
+                        <option value="War">War</option>
+                        <option value="Western">Western</option>
                     </select>
                 </div>
             </div>
             <div className="container mt-4 mb-4">
                 {loading ? (
                     <p className="text-center">Loading...</p>
-                ) : movies.length > 0 ? (
+                ) : filteredMovies.length > 0 ? (
                     <div className="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4">
-                        {movies.map((movie) => (
+                        {sortMovies(filteredMovies).map((movie) => (
                             <MovieCard
                                 key={movie.imdbID}
                                 movie={movie}

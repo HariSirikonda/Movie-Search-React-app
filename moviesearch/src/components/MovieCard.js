@@ -10,6 +10,7 @@ function MovieCard({ movie, isSaved, onSaveClick }) {
     const [trailerFound, setTrailerFound] = useState(false);
     const [trailerLink, setTrailerLink] = useState("");
     const [shareButtonClicked, setShareButtonClicked] = useState(false)
+    const TMDB_API = process.env.REACT_APP_TMDB_API_KEY;
 
     const handleShareClick = async () => {
         try {
@@ -18,7 +19,7 @@ function MovieCard({ movie, isSaved, onSaveClick }) {
                 setShareButtonClicked(false);
             }, 1000);
             const tmbdResponse = await axios.get(
-                `https://api.themoviedb.org/3/movie/${movie.imdbID}/videos?api_key=2f70ddbb8e5f352e1f1519357c2c43f7`
+                `https://api.themoviedb.org/3/movie/${movie.imdbID}/videos?api_key=${TMDB_API}`
             );
 
             const trailer = tmbdResponse.data.results.find(
@@ -42,7 +43,7 @@ function MovieCard({ movie, isSaved, onSaveClick }) {
         try {
             setTrailerFound(true);
             const tmbdResponse = await axios.get(
-                `https://api.themoviedb.org/3/movie/${movie.imdbID}/videos?api_key=2f70ddbb8e5f352e1f1519357c2c43f7`
+                `https://api.themoviedb.org/3/movie/${movie.imdbID}/videos?api_key=${TMDB_API}`
             );
 
             const trailer = tmbdResponse.data.results.find(
@@ -86,7 +87,7 @@ function MovieCard({ movie, isSaved, onSaveClick }) {
                 </div>
                 {/* Watch Trailer */}
                 {trailerFound && <div className='Trailer-overlay text-center rounded bg-light shadow-sm'>
-                    <h6><a href={trailerFound ? trailerLink : '#'} target='_blank' onClick={handleTrailerLinkClick} >Trailer</a></h6>
+                    <h6><a href={trailerLink} target='_blank' rel="noopener noreferrer">Trailer</a></h6>
                 </div>}
                 {/* Save Button Overlay */}
                 <div className="save-button-overlay no-select rounded bg-light position-absolute shadow-sm">
@@ -121,7 +122,6 @@ function MovieCard({ movie, isSaved, onSaveClick }) {
                         <b>Actors : </b>{movie.Actors}<br />
                         <b>Genre : </b>{movie.Genre}<br />
                         <b>Box Office : </b>{movie.BoxOffice}<br />
-                        <b>Actors : </b>{movie.Actors}<br />
                         <b>Languages : </b>{movie.Language}<br />
                         <b>Plot : </b>{movie.Plot}<br />
                         <b>Runtime : </b>{movie.Runtime}<br />

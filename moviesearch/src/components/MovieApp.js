@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import MovieCard from './MovieCard';
 
 function MovieApp() {
-    const API_KEY = "6afed51a";
+    const OMDB_API_KEY = "6afed51a";
     const [searchQuery, setSearchQuery] = useState('');
     const [movies, setMovies] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -34,7 +34,7 @@ function MovieApp() {
         let fetchedMovies = [];
         try {
             for (let page = 1; page <= 5; page++) { // Fetch multiple pages
-                const url = `https://www.omdbapi.com/?apikey=${API_KEY}&s=${keyword}&page=${page}`;
+                const url = `https://www.omdbapi.com/?apikey=${OMDB_API_KEY}&s=${keyword}&page=${page}`;
                 const response = await fetch(url);
                 const data = await response.json();
 
@@ -69,7 +69,7 @@ function MovieApp() {
                 // Fetch detailed movie data
                 const detailedMovies = await Promise.all(
                     allMovies.slice(0, 100).map(async (movie) => {
-                        const detailsUrl = `https://www.omdbapi.com/?apikey=${API_KEY}&i=${movie.imdbID}&plot=short`;
+                        const detailsUrl = `https://www.omdbapi.com/?apikey=${OMDB_API_KEY}&i=${movie.imdbID}&plot=short`;
                         const detailsResponse = await fetch(detailsUrl);
                         return await detailsResponse.json();
                     })
@@ -106,7 +106,7 @@ function MovieApp() {
                 // Fetch detailed movie data
                 const detailedMovies = await Promise.all(
                     movies.map(async (movie) => {
-                        const detailedUrl = `https://www.omdbapi.com/?apikey=${API_KEY}&i=${movie.imdbID}&plot=short`;
+                        const detailedUrl = `https://www.omdbapi.com/?apikey=${OMDB_API_KEY}&i=${movie.imdbID}&plot=short`;
                         const detailedResponse = await fetch(detailedUrl);
                         return detailedResponse.json();
                     })
@@ -151,7 +151,7 @@ function MovieApp() {
     return (
         <div className="movie-app">
             <header className="text-center m-4">
-                <h1 className="text-success">CHITRAVAHINI</h1>
+                <h1 className="text-success"><b>Chitravahini</b></h1>
             </header>
             <div className='container border p-2'>
                 <div className="container d-flex align-items-center justify-content-center mb-1">

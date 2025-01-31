@@ -74,6 +74,7 @@ function MovieApp() {
                 );
 
                 setMovies(detailedMovies);
+                console.log(detailedMovies);
             } catch (error) {
                 console.error("Error fetching movies:", error);
             } finally {
@@ -105,6 +106,7 @@ function MovieApp() {
                     })
                 );
                 setMovies(detailedMovies);
+                console.log(detailedMovies);
             } else {
                 alert("Movie not found.");
                 setMovies([]);

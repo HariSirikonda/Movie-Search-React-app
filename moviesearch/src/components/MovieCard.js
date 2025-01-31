@@ -86,9 +86,9 @@ function MovieCard({ movie, isSaved, onSaveClick }) {
                     </div>
                 </div>
                 {/* Watch Trailer */}
-                {trailerFound && <div className='Trailer-overlay text-center rounded bg-light shadow-sm'>
-                    <h6><a href={trailerLink} target='_blank' rel="noopener noreferrer">Trailer</a></h6>
-                </div>}
+                <div className='Trailer-overlay text-center rounded bg-light shadow-sm'>
+                    <h6><a href={trailerLink} onClick={handleTrailerLinkClick} target='_blank' rel="noopener noreferrer">Trailer</a></h6>
+                </div>
                 {/* Save Button Overlay */}
                 <div className="save-button-overlay no-select rounded bg-light position-absolute shadow-sm">
                     <img

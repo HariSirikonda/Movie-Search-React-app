@@ -153,57 +153,59 @@ function MovieApp() {
             <header className="text-center m-4">
                 <h1 className="text-success">CHITRAVAHINI</h1>
             </header>
-            <div className="container d-flex align-items-center justify-content-center mb-1">
-                <input
-                    className="form-control m-2 rounded-pill shadow-none"
-                    value={searchQuery}
-                    onChange={handleSearchChange}
-                    placeholder="Enter movie name"
-                    onKeyDown={handleKeyDown}
-                    type="text"
-                />
-                <button
-                    className="btn btn-primary rounded-pill"
-                    onClick={handleSearchSubmit}
-                    disabled={loading}
-                >
-                    {loading ? 'Searching...' : 'Search'}
-                </button>
-            </div>
-            <div className='container d-flex align-items-center justify-content-center mb-4 p-2'>
-                <div className='mx-2'>
-                    <label className='mx-2'><b>Sort by : </b></label>
-                    <select className='rounded-pill p-1 bg-light' value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
-                        <option className='p-2'>--</option>
-                        <option value="Popularity">Popularity</option>
-                        <option value="Rating">Rating</option>
-                        <option value="Release date">Release date</option>
-                    </select>
+            <div className='container border p-2'>
+                <div className="container d-flex align-items-center justify-content-center mb-1">
+                    <input
+                        className="form-control m-2 rounded-pill shadow-none"
+                        value={searchQuery}
+                        onChange={handleSearchChange}
+                        placeholder="Enter movie name"
+                        onKeyDown={handleKeyDown}
+                        type="text"
+                    />
+                    <button
+                        className="btn btn-primary rounded-pill"
+                        onClick={handleSearchSubmit}
+                        disabled={loading}
+                    >
+                        {loading ? 'Searching...' : 'Search'}
+                    </button>
                 </div>
-                <div>
-                    <label className='mx-2'><b>Genre : </b></label>
-                    <select className='rounded-pill p-1 bg-light' onChange={handleGenreChange}>
-                        <option value="">--</option>
-                        <option value="Action">Action</option>
-                        <option value="Adventure">Adventure</option>
-                        <option value="Animation">Animation</option>
-                        <option value="Comedy">Comedy</option>
-                        <option value="Crime">Crime</option>
-                        <option value="Documentary">Documentary</option>
-                        <option value="Drama">Drama</option>
-                        <option value="Family">Family</option>
-                        <option value="Fantasy">Fantasy</option>
-                        <option value="History">History</option>
-                        <option value="Horror">Horror</option>
-                        <option value="Music">Music</option>
-                        <option value="Mystery">Mystery</option>
-                        <option value="Romance">Romance</option>
-                        <option value="Science Fiction">Science Fiction</option>
-                        <option value="TV Movie">TV Movies</option>
-                        <option value="Thriller">Thriller</option>
-                        <option value="War">War</option>
-                        <option value="Western">Western</option>
-                    </select>
+                <div className='container d-flex align-items-center justify-content-center mb-4 p-2'>
+                    <div className='mx-2'>
+                        <label className='mx-2'><b>Sort by : </b></label>
+                        <select className='rounded-pill p-1 bg-light' value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+                            <option className='p-2'>--</option>
+                            <option value="Popularity">Popularity</option>
+                            <option value="Rating">Rating</option>
+                            <option value="Release date">Release date</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label className='mx-2'><b>Genre : </b></label>
+                        <select className='rounded-pill p-1 bg-light' onChange={handleGenreChange}>
+                            <option value="">--</option>
+                            <option value="Action">Action</option>
+                            <option value="Adventure">Adventure</option>
+                            <option value="Animation">Animation</option>
+                            <option value="Comedy">Comedy</option>
+                            <option value="Crime">Crime</option>
+                            <option value="Documentary">Documentary</option>
+                            <option value="Drama">Drama</option>
+                            <option value="Family">Family</option>
+                            <option value="Fantasy">Fantasy</option>
+                            <option value="History">History</option>
+                            <option value="Horror">Horror</option>
+                            <option value="Music">Music</option>
+                            <option value="Mystery">Mystery</option>
+                            <option value="Romance">Romance</option>
+                            <option value="Science Fiction">Science Fiction</option>
+                            <option value="TV Movie">TV Movies</option>
+                            <option value="Thriller">Thriller</option>
+                            <option value="War">War</option>
+                            <option value="Western">Western</option>
+                        </select>
+                    </div>
                 </div>
             </div>
             <div className="container mt-4 mb-4">

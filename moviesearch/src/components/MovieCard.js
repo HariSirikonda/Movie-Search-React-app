@@ -7,6 +7,7 @@ import Share from '../assets/share.png';
 import axios from 'axios';
 
 function MovieCard({ movie, isSaved, onSaveClick }) {
+    const [trailerFound, setTrailerFound] = useState(false);
     const [trailerLink, setTrailerLink] = useState("");
     const [shareButtonClicked, setShareButtonClicked] = useState(false)
 
@@ -37,6 +38,33 @@ function MovieCard({ movie, isSaved, onSaveClick }) {
         }
     }
 
+    const handleTrailerLinkClick = async () => {
+        try {
+            setTrailerFound(true);
+            const tmbdResponse = await axios.get(
+                `https://api.themoviedb.org/3/movie/${movie.imdbID}/videos?api_key=2f70ddbb8e5f352e1f1519357c2c43f7`
+            );
+
+            const trailer = tmbdResponse.data.results.find(
+                (video) => video.site === "YouTube" && video.type === "Trailer"
+            );
+
+            if (trailer) {
+                console.log("Trailer found");
+                setTrailerLink(`https://www.youtube.com/watch?v=${trailer.key}`);
+                const trailerPageLink = `https://www.youtube.com/watch?v=${trailer.key}`;
+                console.log("Trailer Link", trailerPageLink);
+            }
+            else {
+                console.log("Trailer not found");
+                setTrailerFound(false);
+            }
+        } catch (error) {
+            alert("There is no Trailer link assosiated with the Movie")
+            return
+        }
+    };
+
     return (
         <div className="col">
             <div className="card-img card h-100 shadow-sm position-relative">
@@ -52,14 +80,14 @@ function MovieCard({ movie, isSaved, onSaveClick }) {
                     <div className='ms-2'>
                         <h6>{movie.imdbRating}</h6>
                     </div>
-                    <div className='ms-2'>
+                    <div className='ms-1'>
                         <img src={Star} />
                     </div>
                 </div>
                 {/* Watch Trailer */}
-                <div className='Trailer-overlay text-center rounded bg-light shadow-sm'>
-                    <h6><a href={trailerLink} target='_blank'>Trailer</a></h6>
-                </div>
+                {trailerFound && <div className='Trailer-overlay text-center rounded bg-light shadow-sm'>
+                    <h6><a href={trailerFound ? trailerLink : '#'} target='_blank' onClick={handleTrailerLinkClick} >Trailer</a></h6>
+                </div>}
                 {/* Save Button Overlay */}
                 <div className="save-button-overlay no-select rounded bg-light position-absolute shadow-sm">
                     <img

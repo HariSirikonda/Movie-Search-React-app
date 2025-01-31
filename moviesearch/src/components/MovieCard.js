@@ -8,23 +8,32 @@ import axios from 'axios';
 
 function MovieCard({ movie, isSaved, onSaveClick }) {
     const [trailerLink, setTrailerLink] = useState("");
+    const [shareButtonClicked, setShareButtonClicked] = useState(false)
 
     const handleShareClick = async () => {
-        const tmbdResponse = await axios.get(
-            `https://api.themoviedb.org/3/movie/${movie.imdbID}/videos?api_key=2f70ddbb8e5f352e1f1519357c2c43f7`
-        );
+        try {
+            setShareButtonClicked(true)
+            setTimeout(() => {
+                setShareButtonClicked(false);
+            }, 1000);
+            const tmbdResponse = await axios.get(
+                `https://api.themoviedb.org/3/movie/${movie.imdbID}/videos?api_key=2f70ddbb8e5f352e1f1519357c2c43f7`
+            );
 
-        const trailer = tmbdResponse.data.results.find(
-            (video) => video.site === "YouTube" && video.type === "Trailer"
-        );
+            const trailer = tmbdResponse.data.results.find(
+                (video) => video.site === "YouTube" && video.type === "Trailer"
+            );
 
-        if (trailer) {
-            setTrailerLink(`https://www.youtube.com/watch?v=${trailer.key}`)
-            const trailerUrl = `https://www.youtube.com/watch?v=${trailer.key}`;
-            navigator.clipboard.writeText(trailerUrl);
-        }
-        else {
-            setTrailerLink('Trailer not found!')
+            if (trailer) {
+                setTrailerLink(`https://www.youtube.com/watch?v=${trailer.key}`)
+                const trailerUrl = `https://www.youtube.com/watch?v=${trailer.key}`;
+                navigator.clipboard.writeText(trailerUrl);
+            }
+            else {
+                setTrailerLink('Trailer not found!')
+            }
+        } catch (error) {
+            alert("There is no Trailer link assosiated with the Movie")
         }
     }
 
@@ -72,9 +81,10 @@ function MovieCard({ movie, isSaved, onSaveClick }) {
                     />
                 </div>
                 {/* COpied msg */}
-                <div className='copied-msg-overlay text-center rounded'>
+                {shareButtonClicked && <div className='copied-msg-overlay text-center rounded'>
                     <p>Copied!</p>
-                </div>
+                </div>}
+
                 {/* Overlay Text */}
                 <div className="overlay-text">
                     <p>

@@ -25,6 +25,8 @@ function MovieApp() {
         }));
     };
 
+
+
     // Fetch movies using a given keyword
     const fetchMoviesByKeyword = async (keyword) => {
         let fetchedMovies = [];
@@ -115,6 +117,12 @@ function MovieApp() {
         }
     };
 
+    const handleKeyDown = (event) => {
+        if (event.key === "Enter") {
+            handleSearchSubmit();
+        }
+    };
+
     return (
         <div className="movie-app">
             <header className="text-center m-4">
@@ -126,6 +134,7 @@ function MovieApp() {
                     value={searchQuery}
                     onChange={handleSearchChange}
                     placeholder="Enter movie name"
+                    onKeyDown={handleKeyDown}
                     type="text"
                 />
                 <button

@@ -136,6 +136,20 @@
     pointer-events: auto;
 }
 
+.initial {
+    opacity: 0;
+}
+
+.fade-in {
+    opacity: 1;
+    transition: opacity 1s linear;
+}
+
+.fade-out {
+    opacity: 0;
+    transition: opacity 1s linear;
+}
+
 .copied-msg-overlay {
     position: absolute;
     top: 52px;
@@ -145,5 +159,7 @@
     width: 70px;
     height: 25px;
     z-index: 10;
+    opacity: 1;
+    transition: opacity 1s linear;
     pointer-events: auto;
 }

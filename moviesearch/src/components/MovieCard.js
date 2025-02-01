@@ -13,10 +13,6 @@ function MovieCard({ movie, isSaved, onSaveClick }) {
 
     const fetchTrailerLink = async () => {
         try {
-            setShareButtonClicked(true)
-            setTimeout(() => {
-                setShareButtonClicked(false);
-            }, 1000);
             const tmbdResponse = await axios.get(
                 `https://api.themoviedb.org/3/movie/${movie.imdbID}/videos?api_key=${TMDB_API}`
             );
@@ -26,6 +22,10 @@ function MovieCard({ movie, isSaved, onSaveClick }) {
             );
 
             if (trailer) {
+                setShareButtonClicked(true)
+                setTimeout(() => {
+                    setShareButtonClicked(false);
+                }, 1000);
                 setTrailerLink(`https://www.youtube.com/watch?v=${trailer.key}`)
                 console.log("Trailer Link Found", trailerLink);
             }

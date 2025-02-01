@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react';
 import MovieCard from './MovieCard';
 
 function MovieApp() {
-    const API_KEY = "6afed51a";
+    const OMDB_API_KEY = "6afed51a";
     const [searchQuery, setSearchQuery] = useState('');
     const [movies, setMovies] = useState([]);
     const [loading, setLoading] = useState(false);
     const [savedMovies, setSavedMovies] = useState({});
     const [sortBy, setSortBy] = useState('');
     const [selectedGenre, setSelectedGenre] = useState('');
+    const [suggestions, setSuggestions] = useState([]);
 
     const popularTeluguMovies = [
         "Baahubali", "RRR", "Pushpa", "Ala Vaikunthapurramuloo", "Sarileru Neekevvaru",
@@ -16,8 +17,32 @@ function MovieApp() {
         "Gabbar Singh", "Pokiri", "Athadu", "Jalsa", "Temper"
     ];
 
-    const handleSearchChange = (event) => {
-        setSearchQuery(event.target.value);
+    const handleSearchChange = async (event) => {
+        const query = event.target.value;
+        setSearchQuery(query);
+
+        if (query.length > 2) {
+            try {
+                const url = `https://www.omdbapi.com/?apikey=${OMDB_API_KEY}&s=${query}`;
+                const response = await fetch(url);
+                const data = await response.json();
+
+                if (data.Response === "True") {
+                    setSuggestions(data.Search.map(movie => movie.Title));
+                } else {
+                    setSuggestions([]);
+                }
+            } catch (error) {
+                console.error("Error fetching suggestions:", error);
+            }
+        } else {
+            setSuggestions([]);
+        }
+    };
+
+    const handleSuggestionClick = (title) => {
+        setSearchQuery(title);
+        setSuggestions([]);
     };
 
     const handleSaveClick = (imdbID) => {
@@ -34,7 +59,7 @@ function MovieApp() {
         let fetchedMovies = [];
         try {
             for (let page = 1; page <= 5; page++) { // Fetch multiple pages
-                const url = `https://www.omdbapi.com/?apikey=${API_KEY}&s=${keyword}&page=${page}`;
+                const url = `https://www.omdbapi.com/?apikey=${OMDB_API_KEY}&s=${keyword}&page=${page}`;
                 const response = await fetch(url);
                 const data = await response.json();
 
@@ -69,7 +94,7 @@ function MovieApp() {
                 // Fetch detailed movie data
                 const detailedMovies = await Promise.all(
                     allMovies.slice(0, 100).map(async (movie) => {
-                        const detailsUrl = `https://www.omdbapi.com/?apikey=${API_KEY}&i=${movie.imdbID}&plot=short`;
+                        const detailsUrl = `https://www.omdbapi.com/?apikey=${OMDB_API_KEY}&i=${movie.imdbID}&plot=short`;
                         const detailsResponse = await fetch(detailsUrl);
                         return await detailsResponse.json();
                     })
@@ -106,7 +131,7 @@ function MovieApp() {
                 // Fetch detailed movie data
                 const detailedMovies = await Promise.all(
                     movies.map(async (movie) => {
-                        const detailedUrl = `https://www.omdbapi.com/?apikey=${API_KEY}&i=${movie.imdbID}&plot=short`;
+                        const detailedUrl = `https://www.omdbapi.com/?apikey=${OMDB_API_KEY}&i=${movie.imdbID}&plot=short`;
                         const detailedResponse = await fetch(detailedUrl);
                         return detailedResponse.json();
                     })
@@ -139,11 +164,11 @@ function MovieApp() {
     // Sorting function
     const sortMovies = (moviesList) => {
         if (sortBy === "Popularity") {
-            return [...moviesList].sort((a, b) => b.imdbVotes - a.imdbVotes);
+            return [...moviesList].sort((a, b) => Number(b.imdbVotes.replace(/,/g, '')) - Number(a.imdbVotes.replace(/,/g, '')));
         } else if (sortBy === "Rating") {
-            return [...moviesList].sort((a, b) => b.imdbRating - a.imdbRating);
+            return [...moviesList].sort((a, b) => (b.imdbRating !== "N/A" ? b.imdbRating : 0) - (a.imdbRating !== "N/A" ? a.imdbRating : 0));
         } else if (sortBy === "Release date") {
-            return [...moviesList].sort((a, b) => b.Year - a.Year);
+            return [...moviesList].sort((a, b) => parseInt(b.Year) - parseInt(a.Year));
         }
         return moviesList; // Default order
     };
@@ -151,16 +176,15 @@ function MovieApp() {
     return (
         <div className="movie-app">
             <header className="text-center m-4">
-                <h1 className="text-success">CHITRAVAHINI</h1>
+                <h1 className="text-success"><b>Chitravahini</b></h1>
             </header>
             <div className='container border p-2'>
-                <div className="container d-flex align-items-center justify-content-center mb-1">
+                <div className="container d-flex align-items-center justify-content-center mb-1 position-relative">
                     <input
                         className="form-control m-2 rounded-pill shadow-none"
                         value={searchQuery}
                         onChange={handleSearchChange}
                         placeholder="Enter movie name"
-                        onKeyDown={handleKeyDown}
                         type="text"
                     />
                     <button
@@ -170,6 +194,15 @@ function MovieApp() {
                     >
                         {loading ? 'Searching...' : 'Search'}
                     </button>
+                    {suggestions.length > 0 && (
+                        <ul className="list-group position-absolute w-100 bg-white shadow p-2" style={{ top: '100%', left: 0, zIndex: 1000 }}>
+                            {suggestions.map((title, index) => (
+                                <li key={index} className="list-group-item list-group-item-action" onClick={() => handleSuggestionClick(title)}>
+                                    {title}
+                                </li>
+                            ))}
+                        </ul>
+                    )}
                 </div>
                 <div className='container d-flex align-items-center justify-content-center mb-4 p-2'>
                     <div className='mx-2'>

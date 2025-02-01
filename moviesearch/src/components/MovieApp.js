@@ -10,6 +10,7 @@ function MovieApp() {
     const [sortBy, setSortBy] = useState('');
     const [selectedGenre, setSelectedGenre] = useState('');
     const [suggestions, setSuggestions] = useState([]);
+    const [showSavedMovies, setShowSavedMovies] = useState(false);
 
     const popularTeluguMovies = [
         "Baahubali", "RRR", "Pushpa", "Ala Vaikunthapurramuloo", "Sarileru Neekevvaru",
@@ -163,15 +164,24 @@ function MovieApp() {
 
     // Sorting function
     const sortMovies = (moviesList) => {
-        if (sortBy === "Popularity") {
-            return [...moviesList].sort((a, b) => Number(b.imdbVotes.replace(/,/g, '')) - Number(a.imdbVotes.replace(/,/g, '')));
-        } else if (sortBy === "Rating") {
-            return [...moviesList].sort((a, b) => (b.imdbRating !== "N/A" ? b.imdbRating : 0) - (a.imdbRating !== "N/A" ? a.imdbRating : 0));
-        } else if (sortBy === "Release date") {
-            return [...moviesList].sort((a, b) => parseInt(b.Year) - parseInt(a.Year));
+        let filteredMovies = moviesList;
+
+        if (showSavedMovies) {
+            // Filter the movies based on whether they are saved
+            filteredMovies = moviesList.filter(movie => savedMovies[movie.imdbID]);
         }
-        return moviesList; // Default order
+
+        if (sortBy === "Popularity") {
+            return [...filteredMovies].sort((a, b) => Number(b.imdbVotes.replace(/,/g, '')) - Number(a.imdbVotes.replace(/,/g, '')));
+        } else if (sortBy === "Rating") {
+            return [...filteredMovies].sort((a, b) => (b.imdbRating !== "N/A" ? b.imdbRating : 0) - (a.imdbRating !== "N/A" ? a.imdbRating : 0));
+        } else if (sortBy === "Release date") {
+            return [...filteredMovies].sort((a, b) => parseInt(b.Year) - parseInt(a.Year));
+        }
+
+        return filteredMovies; // Default order
     };
+
 
     return (
         <div className="movie-app">
@@ -185,6 +195,7 @@ function MovieApp() {
                         value={searchQuery}
                         onChange={handleSearchChange}
                         placeholder="Enter movie name"
+                        onKeyDown={handleKeyDown}
                         type="text"
                     />
                     <button
@@ -238,6 +249,16 @@ function MovieApp() {
                             <option value="War">War</option>
                             <option value="Western">Western</option>
                         </select>
+                    </div>
+                    <div className='mx-2'>
+                        <input
+                            className="form-check-input shadow-none mx-2 border-dark"
+                            type="checkbox"
+                            checked={showSavedMovies} // Track checkbox state
+                            onChange={() => setShowSavedMovies(!showSavedMovies)} // Toggle state
+                            id="flexCheckDefault"
+                        />
+                        <label>Show Saved Movies</label>
                     </div>
                 </div>
             </div>

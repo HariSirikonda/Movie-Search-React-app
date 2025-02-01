@@ -42,9 +42,6 @@ function MovieCard({ movie, isSaved, onSaveClick }) {
         navigator.clipboard.writeText(trailerLink);
     };
 
-    const handleTrailerLinkClick = () => {
-        fetchTrailerLink();
-    }
 
     return (
         <div className="col">
@@ -64,14 +61,6 @@ function MovieCard({ movie, isSaved, onSaveClick }) {
                     <div className='ms-1'>
                         <img src={Star} />
                     </div>
-                </div>
-                {/* Watch Trailer */}
-                <div className='Trailer-overlay text-center rounded bg-light shadow-sm'>
-<<<<<<< HEAD
-                    <h6><a href={trailerLink} target='_blank' onClick={handleTrailerLinkClick} >Trailer</a></h6>
-=======
-                    <h6><a href={trailerLink} target='_blank' >Trailer</a></h6>
->>>>>>> 08a468b890519886a5a7d76270fcf834ca55c5f7
                 </div>
                 {/* Save Button Overlay */}
                 <div className="save-button-overlay no-select rounded bg-light position-absolute shadow-sm">
